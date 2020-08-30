@@ -1,0 +1,51 @@
+version: '3.5'
+
+services:
+  mongo:
+    image: mongo:4
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./database/data/db:/data/db
+    ports:
+      - '${DATABASE_PORT}:27017'
+    networks:
+      - search-apartments
+ 
+  backend:
+    image: node:14-alpine
+    working_dir: /usr/app
+    user: node
+    command: 'npm run start:app'
+    volumes:
+      - ./app:/usr/app
+    ports:
+      - '${PORT}:8080'
+    env_file:
+      - .env
+    networks:
+      - search-apartments
+
+  backend-debug:
+    image: node:14-alpine
+    working_dir: /usr/app
+    user: node
+    command: 'npm run start:debug'
+    volumes:
+      - ./app:/usr/app
+    ports:
+      - '${PORT}:8080'
+      - '9229:9229'
+    env_file:
+      - .env
+    networks:
+      - search-apartments
+
+networks:
+  search-apartments:
+    name: ${COMPOSE_NETWORK_NAME}_api
+    driver: bridge
+
+volumes:
+  database:
