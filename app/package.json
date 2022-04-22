@@ -27,7 +27,7 @@
     "lodash": "4.17.15",
     "mongoose": "5.9.14",
     "morgan": "1.10.0",
-    "nconf": "0.10.0",
+    "nconf": "0.11.4",
     "node-html-parser": "1.2.16",
     "request": "2.88.2",
     "request-promise": "4.2.5",
